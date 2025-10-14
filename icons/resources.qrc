@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>right-arrow.ico</file>
+    <file>settings.ico</file>
+    <file>user-interface.png</file>
+    <file>close.ico</file>
+    <file>file.ico</file>
+    <file>left-arrow.ico</file>
+    <file>menu.ico</file>
+    <file>resources.qrc</file>
+    <file>video.ico</file>
+  </qresource>
+</RCC>
