@@ -38,10 +38,15 @@ def regression_model(filepath="../data/student_scores.xlsx", epochs=50, test_siz
     loss, mae = model.evaluate(x_test, y_test, verbose=0)
 
     # === Один раз рахуємо прогнози ===
-    y_pred_all = model.predict(X).flatten() * 100
-    y_real_all = y * 100
+    # y_pred_all = model.predict(X).flatten() * 100
+    # y_real_all = y * 100
+    y_pred_all = model.predict(x_test).flatten() * 100
+    y_real_all = y_test * 100
 
-    result_size = min(result_size, len(X))
+    # result_size = min(result_size, len(X))
+    # predictions = y_pred_all[:result_size]
+    # real_values = y_real_all[:result_size]
+    result_size = min(result_size, len(x_test))
     predictions = y_pred_all[:result_size]
     real_values = y_real_all[:result_size]
 
@@ -54,6 +59,7 @@ def regression_model(filepath="../data/student_scores.xlsx", epochs=50, test_siz
     # === Форматований текст ===
     result_text = (
         f"Навчання виконано на {epochs} епохах\n"
+        f"вибірка навчання/тести {test_size}\n"
         f"Втрати (MSE): {loss:.4f}\n"
         f"Середня абсолютна похибка (MAE): {mae:.4f}\n"
         f"Точність моделі (по тесту): {accuracy:.2f}%\n\n"
@@ -63,7 +69,7 @@ def regression_model(filepath="../data/student_scores.xlsx", epochs=50, test_siz
         f"{np.array2string(real_values, precision=1, floatmode='fixed', separator=', ')}"
     )
 
-    # Також друкуємо в консоль
+    # вивід в консоль
     print(result_text)
 
     return result_text, model

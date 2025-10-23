@@ -98,6 +98,11 @@ class MainWindow(QMainWindow):
 
         self.worker = None
 
+        try:
+            self.add_layer()
+        except Exception as e:
+            print("Не вдалося створити базовий шар:", e)
+
     # ========================== ВИБІР ФАЙЛУ ==========================
     def select_excel_file(self):
         file_path, _ = QFileDialog.getOpenFileName(
@@ -124,6 +129,7 @@ class MainWindow(QMainWindow):
 
         combo = QComboBox()
         combo.addItems(["relu", "sigmoid", "tanh", "linear"])
+        combo.setCurrentText("relu")
 
         remove_btn = QPushButton("Видалити")
         row_layout.addWidget(spin)
@@ -152,8 +158,16 @@ class MainWindow(QMainWindow):
         widget.setParent(None)
         widget.deleteLater()
 
+        if not self.custom_layers:
+            QMessageBox.warning(self, "Попередження", "Має бути хоча б один шар у моделі!")
+            self.add_layer()
+
     # ========================== НАВЧАННЯ ==========================
     def run_regression_model(self):
+        if not self.custom_layers:
+            QMessageBox.warning(self, "Помилка", "Модель має містити хоча б один шар!")
+            return
+
         if not os.path.exists(self.data_path):
             QMessageBox.critical(self, "Помилка", "Файл для навчання не знайдено!")
             return
@@ -178,10 +192,27 @@ class MainWindow(QMainWindow):
 
         result_size = max(1, result_size)
 
+        # ==== test_size ====
+        test_size = 0.2  # значення за замовчуванням
+        if hasattr(self.ui, "test_size"):
+            try:
+                txt = self.ui.test_size.text().strip()
+                if txt != "":
+                    test_size = float(txt)
+                if not (0.05 <= test_size <= 0.95):
+                    raise ValueError
+            except Exception:
+                QMessageBox.warning(
+                    self,
+                    "Некоректне значення",
+                    "Поле 'test_size' має бути числом від 0.1 до 0.9. Використано стандартне значення 0.2.",
+                )
+                test_size = 0.2
+
         self.worker = RegressionWorker(
             self.data_path,
             epochs=epochs,
-            test_size=0.2,
+            test_size=test_size,
             layers=self.custom_layers,
             result_size=result_size
         )

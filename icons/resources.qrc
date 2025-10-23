@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="icons">
+    <file>download.ico</file>
+    <file>ai-model.ico</file>
+    <file>file1.png</file>
     <file>right-arrow.ico</file>
     <file>settings.ico</file>
     <file>user-interface.png</file>
