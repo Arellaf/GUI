@@ -103,6 +103,8 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print("Не вдалося створити базовий шар:", e)
 
+        self.ui.target_column.hide()
+
     # ========================== ВИБІР ФАЙЛУ ==========================
     def select_excel_file(self):
         file_path, _ = QFileDialog.getOpenFileName(
@@ -112,6 +114,24 @@ class MainWindow(QMainWindow):
             return
         self.data_path = file_path
         QMessageBox.information(self, "Файл вибрано", f"Використовується файл:\n{file_path}")
+
+        try:
+            # Читаємо лише заголовки
+            if file_path.endswith((".xlsx", ".xls")):
+                df = pd.read_excel(file_path, nrows=0)
+            else:
+                df = pd.read_csv(file_path, nrows=0)
+
+            columns = df.columns.tolist()
+
+            if hasattr(self.ui, "target_column"):
+                self.ui.target_column.clear()
+                self.ui.target_column.addItems(columns)
+                self.ui.target_column.setEnabled(True)
+                self.ui.target_column.show()
+        except Exception as e:
+            QMessageBox.critical(self, "Помилка", f"Не вдалося прочитати файл:\n{e}")
+
 
     # ========================== КАСТОМНІ ШАРИ ==========================
     def add_layer(self):
@@ -168,8 +188,19 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Помилка", "Модель має містити хоча б один шар!")
             return
 
-        if not os.path.exists(self.data_path):
-            QMessageBox.critical(self, "Помилка", "Файл для навчання не знайдено!")
+        # if not os.path.exists(self.data_path):
+        #     QMessageBox.critical(self, "Помилка", "Файл для навчання не знайдено!")
+        #     return
+
+        # --- Отримуємо target column ---
+        if hasattr(self.ui, "target_column") and self.ui.target_column.isVisible():
+            self.target_column = self.ui.target_column.currentText()
+        else:
+            self.target_column = None
+
+        # --- Перевірка ---
+        if not self.target_column:
+            QMessageBox.warning(self, "Помилка", "Оберіть цільову колонку (target_column)!")
             return
 
         epochs = 50
@@ -193,7 +224,7 @@ class MainWindow(QMainWindow):
         result_size = max(1, result_size)
 
         # ==== test_size ====
-        test_size = 0.2  # значення за замовчуванням
+        test_size = 0.2
         if hasattr(self.ui, "test_size"):
             try:
                 txt = self.ui.test_size.text().strip()
@@ -211,6 +242,7 @@ class MainWindow(QMainWindow):
 
         self.worker = RegressionWorker(
             self.data_path,
+            target_column=self.target_column,
             epochs=epochs,
             test_size=test_size,
             layers=self.custom_layers,
@@ -267,57 +299,84 @@ class MainWindow(QMainWindow):
             return
 
         try:
+            from tensorflow.keras.models import load_model
             self.trained_model = load_model(file_path)
             QMessageBox.information(self, "Успіх", f"Модель успішно завантажено:\n{file_path}")
         except Exception as e:
             QMessageBox.critical(self, "Помилка", f"Не вдалося завантажити модель:\n{e}")
             return
 
-        if os.path.exists(self.data_path):
-            try:
-                data = pd.read_excel(self.data_path, engine="openpyxl")
-                X = data[["hours_studied", "attendance", "assignments_completed"]].values
-                X = X / X.max(axis=0)
-                y = data["final_score"].values
-
-                result_size = 4
-                if hasattr(self.ui, "result_size"):
-                    try:
-                        txt = self.ui.result_size.text().strip()
-                        result_size = int(txt) if txt != "" else 4
-                    except Exception:
-                        result_size = 4
-                result_size = max(1, min(result_size, len(X)))
-
-                # Прогноз
-                y_pred_all = self.trained_model.predict(X).flatten() * 100
-                preds = y_pred_all[:result_size]
-                real_values = y[:result_size]
-
-                # ==== Обчислення точності у % ====
-                mape = np.mean(np.abs((y - y_pred_all) / y)) * 100
-                accuracy = 100 - mape
-
-                out_text = (
-                    f"Завантажена модель: {os.path.basename(file_path)}\n"
-                    f"Прогноз (перші {result_size}): {np.array2string(preds, precision=2, floatmode='fixed', separator=', ')}\n"
-                    f"Реальні значення: {np.array2string(real_values, precision=2, floatmode='fixed', separator=', ')}\n\n"
-                    f"Точність моделі: {accuracy:.2f}%"
-                )
-
-                print("[Loaded model prediction]\n", out_text)
-                try:
-                    self.ui.result_model_1.setText(out_text)
-                except Exception:
-                    pass
-
-            except Exception as e:
-                QMessageBox.critical(self, "Помилка", f"Не вдалося зробити прогноз:\n{e}")
-        else:
+        # === Перевірка даних ===
+        if not hasattr(self, "data_path") or not os.path.exists(self.data_path):
             try:
                 self.ui.result_model_1.setText("Модель завантажена. Даних для прогнозу не знайдено.")
             except Exception:
                 pass
+            return
+
+        try:
+            # === Завантаження даних ===
+            if self.data_path.endswith((".xlsx", ".xls")):
+                data = pd.read_excel(self.data_path, engine="openpyxl")
+            else:
+                data = pd.read_csv(self.data_path)
+
+            target_col = self.ui.target_column.currentText().strip()
+
+            if target_col not in data.columns:
+                raise ValueError(f"У файлі немає колонки '{target_col}'")
+
+            X = data.drop(columns=[target_col]).select_dtypes(include=[np.number])
+            y = data[target_col].values
+
+            if X.shape[1] == 0:
+                raise ValueError("У файлі немає числових ознак для прогнозу.")
+
+            # === Нормалізація ===
+            X = X / X.max(axis=0)
+            y = y / 100.0  # щоб збігалося з масштабуванням при тренуванні
+
+            # === Прогноз ===
+            y_pred_all = self.trained_model.predict(X).flatten() * 100
+            y_real_all = y * 100
+
+            # === Кількість результатів для показу ===
+            result_size = 4
+            if hasattr(self.ui, "result_size"):
+                try:
+                    txt = self.ui.result_size.text().strip()
+                    result_size = int(txt) if txt else 4
+                except Exception:
+                    result_size = 4
+            result_size = min(result_size, len(X))
+
+            predictions = y_pred_all[:result_size]
+            real_values = y_real_all[:result_size]
+
+            # === Обчислення точності ===
+            mape = np.mean(np.abs((y_real_all - y_pred_all) / y_real_all)) * 100
+            accuracy = 100 - mape
+
+            # === Форматований текст ===
+            result_text = (
+                f"Завантажена модель: {os.path.basename(file_path)}\n"
+                f"Цільова колонка: {target_col}\n"
+                f"Втрати (MSE): немає (модель лише для прогнозу)\n"
+                f"Точність моделі (приблизно): {accuracy:.2f}%\n\n"
+                f"Прогнози (перші {result_size}): "
+                f"{np.array2string(predictions, precision=3, floatmode='fixed', separator=', ')}\n"
+                f"Реальні значення: "
+                f"{np.array2string(real_values, precision=1, floatmode='fixed', separator=', ')}"
+            )
+
+            print("[Loaded model prediction]\n", result_text)
+            try:
+                self.ui.result_model_1.setText(result_text)
+            except Exception:
+                pass
+
+        except Exception as e:
+            QMessageBox.critical(self, "Помилка", f"Не вдалося зробити прогноз:\n{e}")
 
 
 if __name__ == "__main__":

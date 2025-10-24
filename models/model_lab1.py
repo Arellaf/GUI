@@ -4,12 +4,21 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 
-def regression_model(filepath="../data/student_scores.xlsx", epochs=50, test_size=0.2, layers=None, result_size=4):
+def regression_model(filepath, target_column, epochs=50, test_size=0.2, layers=None, result_size=4):
     # === Завантаження даних ===
-    data = pd.read_excel(filepath, engine="openpyxl")
+    if filepath.endswith((".xlsx", ".xls")):
+        data = pd.read_excel(filepath, engine="openpyxl")
+    else:
+        data = pd.read_csv(filepath)
 
-    X = data[["hours_studied", "attendance", "assignments_completed"]].values
-    y = data["final_score"].values
+    if target_column not in data.columns:
+        raise ValueError(f"У файлі немає колонки '{target_column}'")
+
+    X = data.drop(columns=[target_column]).select_dtypes(include=[np.number])
+    y = data[target_column].values
+
+    if X.shape[1] == 0:
+        raise ValueError("У файлі немає числових ознак для навчання.")
 
     # Нормалізація
     X = X / X.max(axis=0)
@@ -20,7 +29,7 @@ def regression_model(filepath="../data/student_scores.xlsx", epochs=50, test_siz
 
     # === Побудова моделі ===
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Flatten(input_shape=(3,)))
+    model.add(tf.keras.layers.Input(shape=(X.shape[1],)))
 
     if layers:
         for layer in layers:

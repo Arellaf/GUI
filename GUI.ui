@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>933</width>
-    <height>751</height>
+    <width>985</width>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -104,28 +104,136 @@
              </property>
              <widget class="QWidget" name="page_4">
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="0" colspan="2">
-                <widget class="QLabel" name="result_model_1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>500</width>
-                   <height>250</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>800</width>
-                   <height>350</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
+               <item row="1" column="0" rowspan="2" colspan="2">
+                <widget class="QWidget" name="widget_4" native="true">
+                 <layout class="QGridLayout" name="gridLayout">
+                  <item row="2" column="0">
+                   <widget class="QScrollArea" name="scrollArea">
+                    <property name="minimumSize">
+                     <size>
+                      <width>350</width>
+                      <height>200</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>1000</width>
+                      <height>1000</height>
+                     </size>
+                    </property>
+                    <property name="widgetResizable">
+                     <bool>true</bool>
+                    </property>
+                    <widget class="QWidget" name="scrollAreaWidgetContents">
+                     <property name="geometry">
+                      <rect>
+                       <x>0</x>
+                       <y>0</y>
+                       <width>348</width>
+                       <height>198</height>
+                      </rect>
+                     </property>
+                     <layout class="QGridLayout" name="gridLayout_3">
+                      <item row="1" column="0">
+                       <widget class="QWidget" name="add_layers_model_1" native="true">
+                        <layout class="QGridLayout" name="gridLayout_4">
+                         <item row="0" column="0">
+                          <widget class="QPushButton" name="add_layer_btn">
+                           <property name="text">
+                            <string>Add layer</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </widget>
+                  </item>
+                  <item row="2" column="2">
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QWidget" name="widget_6" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>92</height>
+                       </size>
+                      </property>
+                      <layout class="QGridLayout" name="gridLayout_7">
+                       <item row="0" column="0">
+                        <widget class="QPushButton" name="upload_my_data">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>Upload my data</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="icons/resources.qrc">
+                           <normaloff>:/icons/file1.png</normaloff>:/icons/file1.png</iconset>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QComboBox" name="target_column"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="upload_my_model">
+                      <property name="text">
+                       <string>Upload my model</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="icons/resources.qrc">
+                        <normaloff>:/icons/ai-model.ico</normaloff>:/icons/ai-model.ico</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="safe_model_btn">
+                      <property name="text">
+                       <string>Safe the model</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="icons/resources.qrc">
+                        <normaloff>:/icons/download.ico</normaloff>:/icons/download.ico</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QLineEdit" name="result_size">
+                    <property name="placeholderText">
+                     <string>result size (default 4)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLineEdit" name="epochs_size">
+                    <property name="placeholderText">
+                     <string>number of epochs (default 50) </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0" colspan="3">
+                   <widget class="QLineEdit" name="test_size">
+                    <property name="placeholderText">
+                     <string>test_size (default 0.2) </string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item row="3" column="0" colspan="2">
@@ -204,115 +312,47 @@
                  </layout>
                 </widget>
                </item>
-               <item row="1" column="0" rowspan="2" colspan="2">
-                <widget class="QWidget" name="widget_4" native="true">
-                 <layout class="QGridLayout" name="gridLayout">
-                  <item row="2" column="0">
-                   <widget class="QScrollArea" name="scrollArea">
-                    <property name="minimumSize">
-                     <size>
-                      <width>350</width>
-                      <height>200</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>1000</width>
-                      <height>1000</height>
-                     </size>
-                    </property>
-                    <property name="widgetResizable">
-                     <bool>true</bool>
-                    </property>
-                    <widget class="QWidget" name="scrollAreaWidgetContents">
-                     <property name="geometry">
-                      <rect>
-                       <x>0</x>
-                       <y>0</y>
-                       <width>348</width>
-                       <height>198</height>
-                      </rect>
+               <item row="0" column="0">
+                <widget class="QScrollArea" name="scrollArea_2">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>690</width>
+                    <height>272</height>
+                   </rect>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_8">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="result_model_1">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
                      </property>
-                     <layout class="QGridLayout" name="gridLayout_3">
-                      <item row="1" column="0">
-                       <widget class="QWidget" name="add_layers_model_1" native="true">
-                        <layout class="QGridLayout" name="gridLayout_4">
-                         <item row="0" column="0">
-                          <widget class="QPushButton" name="add_layer_btn">
-                           <property name="text">
-                            <string>Add layer</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </widget>
-                      </item>
-                     </layout>
+                     <property name="maximumSize">
+                      <size>
+                       <width>2200</width>
+                       <height>2200</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
                     </widget>
-                   </widget>
-                  </item>
-                  <item row="2" column="2">
-                   <layout class="QVBoxLayout" name="verticalLayout_8">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QPushButton" name="upload_my_model">
-                      <property name="text">
-                       <string>Upload my model</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="icons/resources.qrc">
-                        <normaloff>:/icons/ai-model.ico</normaloff>:/icons/ai-model.ico</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="upload_my_data">
-                      <property name="text">
-                       <string>Upload my data</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="icons/resources.qrc">
-                        <normaloff>:/icons/file1.png</normaloff>:/icons/file1.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="safe_model_btn">
-                      <property name="text">
-                       <string>Safe the model</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="icons/resources.qrc">
-                        <normaloff>:/icons/download.ico</normaloff>:/icons/download.ico</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item row="1" column="2">
-                   <widget class="QLineEdit" name="result_size">
-                    <property name="placeholderText">
-                     <string>result size (default 4)</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLineEdit" name="epochs_size">
-                    <property name="placeholderText">
-                     <string>number of epochs (default 50) </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0" colspan="3">
-                   <widget class="QLineEdit" name="test_size">
-                    <property name="placeholderText">
-                     <string>test_size (default 0.2) </string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                   </item>
+                  </layout>
+                 </widget>
                 </widget>
                </item>
               </layout>
