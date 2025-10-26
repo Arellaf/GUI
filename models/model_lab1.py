@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-
 def regression_model(filepath, target_column, epochs=50, test_size=0.2, layers=None, result_size=4):
     # === Завантаження даних ===
     if filepath.endswith((".xlsx", ".xls")):
@@ -46,15 +45,9 @@ def regression_model(filepath, target_column, epochs=50, test_size=0.2, layers=N
     # === Оцінка (по тесту) ===
     loss, mae = model.evaluate(x_test, y_test, verbose=0)
 
-    # === Один раз рахуємо прогнози ===
-    # y_pred_all = model.predict(X).flatten() * 100
-    # y_real_all = y * 100
     y_pred_all = model.predict(x_test).flatten() * 100
     y_real_all = y_test * 100
 
-    # result_size = min(result_size, len(X))
-    # predictions = y_pred_all[:result_size]
-    # real_values = y_real_all[:result_size]
     result_size = min(result_size, len(x_test))
     predictions = y_pred_all[:result_size]
     real_values = y_real_all[:result_size]

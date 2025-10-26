@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         self.data_path = os.path.join(BASE_DIR, "data", "student_scores.xlsx")
         self.trained_model = None
-        self.custom_layers = []  # список Dense-шарів
+        self.custom_layers = []
 
         # --- Навігація ---
         try:
@@ -116,7 +116,6 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, "Файл вибрано", f"Використовується файл:\n{file_path}")
 
         try:
-            # Читаємо лише заголовки
             if file_path.endswith((".xlsx", ".xls")):
                 df = pd.read_excel(file_path, nrows=0)
             else:
@@ -187,10 +186,6 @@ class MainWindow(QMainWindow):
         if not self.custom_layers:
             QMessageBox.warning(self, "Помилка", "Модель має містити хоча б один шар!")
             return
-
-        # if not os.path.exists(self.data_path):
-        #     QMessageBox.critical(self, "Помилка", "Файл для навчання не знайдено!")
-        #     return
 
         # --- Отримуємо target column ---
         if hasattr(self.ui, "target_column") and self.ui.target_column.isVisible():
@@ -334,7 +329,7 @@ class MainWindow(QMainWindow):
 
             # === Нормалізація ===
             X = X / X.max(axis=0)
-            y = y / 100.0  # щоб збігалося з масштабуванням при тренуванні
+            y = y / 100.0
 
             # === Прогноз ===
             y_pred_all = self.trained_model.predict(X).flatten() * 100
