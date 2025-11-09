@@ -37,4 +37,6 @@ class MainWindow(QMainWindow):
 
         # --- Підключення сторінки з моделлю 1 ---
         self.regression_model = Model1Page(self.ui)
+
+        # --- Підключення сторінки з моделлю 2 ---
         self.classification_model = Model2Page(self.ui)

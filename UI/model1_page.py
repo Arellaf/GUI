@@ -1,12 +1,11 @@
+from tensorflow.keras.models import load_model
 import os
 import pandas as pd
 import numpy as np
 from PyQt5.QtWidgets import (
     QWidget, QFileDialog, QMessageBox, QHBoxLayout, QVBoxLayout, QPushButton, QSpinBox, QComboBox
 )
-from tensorflow.keras.models import load_model
 from workers.regression_worker import RegressionWorker
-
 
 class Model1Page(QWidget):
     def __init__(self, ui):
@@ -17,7 +16,7 @@ class Model1Page(QWidget):
         self.custom_layers = []
         self.worker = None
 
-        # --- Прив’язуємо кнопки ---
+        # --- кнопки ---
         try:
             self.ui.upload_my_data.clicked.connect(self.select_excel_file)
         except Exception:
@@ -305,7 +304,6 @@ class Model1Page(QWidget):
             result_text = (
                 f"Завантажена модель: {os.path.basename(file_path)}\n"
                 f"Цільова колонка: {target_col}\n"
-                f"Втрати (MSE): немає (модель лише для прогнозу)\n"
                 f"Точність моделі (приблизно): {accuracy:.2f}%\n\n"
                 f"Прогнози (перші {result_size}): "
                 f"{np.array2string(predictions, precision=3, floatmode='fixed', separator=', ')}\n"

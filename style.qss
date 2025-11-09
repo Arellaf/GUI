@@ -2,8 +2,6 @@
 #icon_widget, #widget_2 {
     background-color: #e0e0e0;
     border-right: 2px solid #999;
-/*    border-top-right-radius: 12px;*/
-/*    border-bottom-right-radius: 12px;*/
     padding-right: 10px;
 }
 

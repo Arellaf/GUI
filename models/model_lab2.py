@@ -54,9 +54,8 @@ def classification_model(filepath, target_column, epochs=50, test_size=0.2, laye
         for layer in layers:
             model.add(tf.keras.layers.Dense(layer["units"], activation=layer["activation"]))
     else:
-        model.add(tf.keras.layers.Dense(128, activation="relu"))
+        model.add(tf.keras.layers.Dense(256, activation="relu"))
         model.add(tf.keras.layers.Dropout(0.2))
-        model.add(tf.keras.layers.Dense(64, activation="relu"))
 
     model.add(tf.keras.layers.Dense(num_classes, activation="softmax"))
 
