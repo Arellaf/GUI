@@ -165,13 +165,13 @@ class Model2Page(QWidget):
                 epochs = 50
 
         # result_size
-        result_size = 5
+        result_size = 4
         if hasattr(self.ui, "result_size_1"):
             try:
                 txt = self.ui.result_size_1.text().strip()
-                result_size = int(txt) if txt else 5
+                result_size = int(txt) if txt else 4
             except Exception:
-                result_size = 5
+                result_size = 4
 
         # test_size
         test_size = 0.2
@@ -237,7 +237,7 @@ class Model2Page(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Помилка", f"Не вдалося зберегти модель:\n{e}")
 
-    # ========================== ЗАВАНТАЖЕННЯ МОДЕЛІ (ТИ НАПИШЕШ ЛОГІКУ) ==========================
+    # ========================== ЗАВАНТАЖЕННЯ МОДЕЛІ ==========================
     def load_trained_model(self):
 
         file_path, _ = QFileDialog.getOpenFileName(
