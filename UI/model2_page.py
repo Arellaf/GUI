@@ -8,6 +8,12 @@ from tensorflow.keras.models import load_model
 from workers.classification_worker import ClassificationWorker
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+# --- Імпорти для кластеризації ---
+import tensorflow_model_optimization as tfmot
+
+cluster = tfmot.clustering.keras
+strip_clustering = cluster.strip_clustering
+
 
 class Model2Page(QWidget):
     def __init__(self, ui):
@@ -219,7 +225,7 @@ class Model2Page(QWidget):
         except Exception:
             pass
 
-    # ========================== ЗБЕРЕЖЕННЯ МОДЕЛІ ==========================
+    # ========================== ЗБЕРЕЖЕННЯ МОДЕЛІ З КЛАСТЕРИЗАЦІЄЮ ==========================
     def save_trained_model(self):
         if self.trained_model is None:
             QMessageBox.warning(self, "Немає моделі", "Спочатку потрібно навчити модель або завантажити її!")
@@ -232,14 +238,46 @@ class Model2Page(QWidget):
             return
 
         try:
-            self.trained_model.save(save_path)
-            QMessageBox.information(self, "Успіх", f"Модель збережено у файл:\n{save_path}")
+            if hasattr(self.ui, "checkbox_clusterization") and self.ui.checkbox_clusterization.isChecked():
+                # --- ПРАВИЛЬНА КЛАСТЕРИЗАЦІЯ ---
+                import tensorflow_model_optimization as tfmot
+
+                clustering_params = {
+                    'number_of_clusters': 8,
+                    'cluster_centroids_init': tfmot.clustering.keras.CentroidInitialization.LINEAR
+                }
+
+                # Клонуємо модель і застосовуємо кластеризацію до всіх шарів
+                model_for_clustering = tfmot.clustering.keras.cluster_weights(
+                    self.trained_model, **clustering_params
+                )
+
+                # Компілюємо
+                model_for_clustering.compile(
+                    optimizer=self.trained_model.optimizer,
+                    loss=self.trained_model.loss,
+                    metrics=self.trained_model.metrics
+                )
+
+                #  Знімаємо обгортки кластеризації перед збереженням ---
+                final_model = tfmot.clustering.keras.strip_clustering(model_for_clustering)
+
+                # Зберігаємо "чисту" модель
+                final_model.save(save_path)
+                QMessageBox.information(
+                    self, "Успіх", f"Кластеризована модель збережена (розмір зменшено):\n{save_path}"
+                )
+
+            else:
+                # Звичайне збереження
+                self.trained_model.save(save_path)
+                QMessageBox.information(self, "Успіх", f"Модель збережена:\n{save_path}")
+
         except Exception as e:
             QMessageBox.critical(self, "Помилка", f"Не вдалося зберегти модель:\n{e}")
 
     # ========================== ЗАВАНТАЖЕННЯ МОДЕЛІ ==========================
     def load_trained_model(self):
-
         file_path, _ = QFileDialog.getOpenFileName(
             self, "Завантажити модель", "", "Keras Model (*.keras *.h5)"
         )
@@ -253,13 +291,13 @@ class Model2Page(QWidget):
             QMessageBox.critical(self, "Помилка", f"Не вдалося завантажити модель:\n{e}")
             return
 
-        # === Перевірка наявності даних ===
+        # Перевірка наявності даних
         if not hasattr(self, "data_path") or not os.path.exists(self.data_path):
             self.ui.result_model_2.setText("Модель завантажена. Даних для прогнозу не знайдено.")
             return
 
         try:
-            # === Завантаження даних ===
+            # Завантаження даних
             if self.data_path.endswith(".xlsx"):
                 data = pd.read_excel(self.data_path, engine="openpyxl")
             elif self.data_path.endswith(".xls"):
@@ -271,11 +309,11 @@ class Model2Page(QWidget):
             if target_col not in data.columns:
                 raise ValueError(f"У файлі немає колонки '{target_col}'")
 
-            # === Відокремлення цільової колонки ===
+            # Відокремлення цільової колонки
             y = data[target_col]
             X = data.drop(columns=[target_col])
 
-            # === Кодування нечислових ознак ===
+            # Кодування нечислових ознак
             for col in X.columns:
                 if X[col].dtype == "object" or str(X[col].dtype).startswith("category"):
                     encoder = LabelEncoder()
@@ -284,15 +322,15 @@ class Model2Page(QWidget):
                     except Exception:
                         X[col] = pd.factorize(X[col].astype(str))[0]
 
-            # === Масштабування ===
+            # Масштабування
             scaler = StandardScaler()
             X_scaled = scaler.fit_transform(X)
 
-            # === Кодування цільових класів ===
+            # Кодування цільових класів
             target_encoder = LabelEncoder()
             y_encoded = target_encoder.fit_transform(y)
 
-            # === Прогноз ===
+            # Прогноз
             y_pred_probs = self.trained_model.predict(X_scaled, verbose=0)
             y_pred = np.argmax(y_pred_probs, axis=1)
 
@@ -309,10 +347,10 @@ class Model2Page(QWidget):
             preds = target_encoder.inverse_transform(y_pred[:result_size])
             reals = target_encoder.inverse_transform(y_encoded[:result_size])
 
-            # === Обчислення точності ===
+            # Обчислення точності
             accuracy = np.mean(y_pred == y_encoded) * 100
 
-            # === Форматований результат ===
+            # Форматований результат
             result_text = (
                 f"Завантажена модель: {os.path.basename(file_path)}\n"
                 f"Цільова колонка: {target_col}\n"
