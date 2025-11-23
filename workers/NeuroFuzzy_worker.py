@@ -24,7 +24,7 @@ class NeuroFuzzyWorker(QThread):
                 target_column=self.target_column,
                 epochs=self.epochs,
                 test_size=self.test_size,
-                fuzzy_layers=self.fuzzy_layers,
+                custom_layers=self.fuzzy_layers,
                 result_size=self.result_size
             )
             self.progress.emit("=== Обучение завершено успешно ===")

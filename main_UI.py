@@ -368,7 +368,7 @@ class Ui_MainWindow(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollArea_11.setObjectName("scrollArea_11")
         self.scrollAreaWidgetContents_12 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_12.setGeometry(QtCore.QRect(0, 0, 357, 198))
+        self.scrollAreaWidgetContents_12.setGeometry(QtCore.QRect(0, 0, 348, 198))
         self.scrollAreaWidgetContents_12.setObjectName("scrollAreaWidgetContents_12")
         self.gridLayout_38 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_12)
         self.gridLayout_38.setObjectName("gridLayout_38")
@@ -418,7 +418,7 @@ class Ui_MainWindow(object):
         self.scrollArea_12.setWidgetResizable(True)
         self.scrollArea_12.setObjectName("scrollArea_12")
         self.scrollAreaWidgetContents_13 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_13.setGeometry(QtCore.QRect(0, 0, 744, 183))
+        self.scrollAreaWidgetContents_13.setGeometry(QtCore.QRect(0, 0, 98, 43))
         self.scrollAreaWidgetContents_13.setObjectName("scrollAreaWidgetContents_13")
         self.gridLayout_41 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_13)
         self.gridLayout_41.setObjectName("gridLayout_41")
@@ -619,6 +619,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.addLayout(self.horizontalLayout_14)
         self.gridLayout_21.addWidget(self.widget_15, 3, 0, 1, 1, QtCore.Qt.AlignBottom)
         self.label_7 = QtWidgets.QLabel(self.page_9)
+        self.label_7.setMinimumSize(QtCore.QSize(795, 550))
         self.label_7.setText("")
         self.label_7.setObjectName("label_7")
         self.gridLayout_21.addWidget(self.label_7, 0, 0, 2, 1)
@@ -633,7 +634,7 @@ class Ui_MainWindow(object):
         self.content.setCurrentIndex(2)
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
-        self.stackedWidget_3.setCurrentIndex(0)
+        self.stackedWidget_3.setCurrentIndex(1)
         self.pushButton_9.toggled['bool'].connect(self.icon_widget.setVisible) # type: ignore
         self.pushButton_9.toggled['bool'].connect(self.widget_2.setHidden) # type: ignore
         self.lab1_btn_1.toggled['bool'].connect(self.lab1_btn_2.setChecked) # type: ignore
