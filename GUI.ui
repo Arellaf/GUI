@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1036</width>
-    <height>697</height>
+    <width>1061</width>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -108,7 +108,7 @@
          <item>
           <widget class="QPushButton" name="lab3_btn_2">
            <property name="text">
-            <string>lab3</string>
+            <string>нейро нечітка мережа</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -378,11 +378,11 @@
            <item>
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_4">
               <layout class="QGridLayout" name="gridLayout_6">
-               <item row="1" column="0" rowspan="2" colspan="2">
+               <item row="2" column="0" rowspan="2" colspan="2">
                 <widget class="QWidget" name="widget_4" native="true">
                  <layout class="QGridLayout" name="gridLayout">
                   <item row="2" column="0">
@@ -407,7 +407,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>366</width>
+                       <width>369</width>
                        <height>198</height>
                       </rect>
                      </property>
@@ -514,7 +514,7 @@
                  </layout>
                 </widget>
                </item>
-               <item row="3" column="0" colspan="2">
+               <item row="4" column="0" colspan="2">
                 <widget class="QWidget" name="widget_7" native="true">
                  <layout class="QHBoxLayout" name="horizontalLayout_8">
                   <item>
@@ -590,7 +590,7 @@
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="1" column="0">
                 <widget class="QScrollArea" name="scrollArea_2">
                  <property name="widgetResizable">
                   <bool>true</bool>
@@ -600,8 +600,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>762</width>
-                    <height>248</height>
+                    <width>769</width>
+                    <height>253</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_8">
@@ -631,6 +631,13 @@
                    </item>
                   </layout>
                  </widget>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>регресія</string>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -739,83 +746,7 @@
              </property>
              <widget class="QWidget" name="page_14">
               <layout class="QGridLayout" name="gridLayout_36">
-               <item row="7" column="0" colspan="2">
-                <widget class="QWidget" name="widget_26" native="true">
-                 <layout class="QHBoxLayout" name="horizontalLayout_21">
-                  <item>
-                   <widget class="QPushButton" name="learn_btn_2">
-                    <property name="minimumSize">
-                     <size>
-                      <width>240</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>240</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>12</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Розпочати навчання</string>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="icons/resources.qrc">
-                      <normaloff>:/icons/video.ico</normaloff>:/icons/video.ico</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>40</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_12">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>188</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="stackedWidget_btn_next_3">
-                    <property name="minimumSize">
-                     <size>
-                      <width>80</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="icons/resources.qrc">
-                      <normaloff>:/icons/right-arrow.ico</normaloff>:/icons/right-arrow.ico</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item row="3" column="0" rowspan="2" colspan="2">
+               <item row="4" column="0" rowspan="2" colspan="2">
                 <widget class="QWidget" name="widget_24" native="true">
                  <layout class="QGridLayout" name="gridLayout_37">
                   <item row="4" column="2">
@@ -922,7 +853,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>348</width>
+                       <width>369</width>
                        <height>198</height>
                       </rect>
                      </property>
@@ -965,7 +896,83 @@
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="8" column="0" colspan="2">
+                <widget class="QWidget" name="widget_26" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_21">
+                  <item>
+                   <widget class="QPushButton" name="learn_btn_2">
+                    <property name="minimumSize">
+                     <size>
+                      <width>240</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>240</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Розпочати навчання</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="icons/resources.qrc">
+                      <normaloff>:/icons/video.ico</normaloff>:/icons/video.ico</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>40</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_12">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>188</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="stackedWidget_btn_next_3">
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="icons/resources.qrc">
+                      <normaloff>:/icons/right-arrow.ico</normaloff>:/icons/right-arrow.ico</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="1" column="0">
                 <widget class="QScrollArea" name="scrollArea_12">
                  <property name="widgetResizable">
                   <bool>true</bool>
@@ -975,8 +982,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>540</width>
-                    <height>85</height>
+                    <width>769</width>
+                    <height>211</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_41">
@@ -1006,6 +1013,13 @@
                    </item>
                   </layout>
                  </widget>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>класифікація</string>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -1115,18 +1129,18 @@
              <widget class="QWidget" name="page_8">
               <layout class="QGridLayout" name="gridLayout_15">
                <property name="leftMargin">
-                <number>0</number>
+                <number>11</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>11</number>
                </property>
                <property name="rightMargin">
-                <number>0</number>
+                <number>11</number>
                </property>
                <property name="bottomMargin">
-                <number>0</number>
+                <number>11</number>
                </property>
-               <item row="1" column="0" rowspan="2" colspan="2">
+               <item row="2" column="0" rowspan="2" colspan="2">
                 <widget class="QWidget" name="widget_12" native="true">
                  <layout class="QGridLayout" name="gridLayout_16">
                   <item row="2" column="0">
@@ -1151,7 +1165,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>377</width>
+                       <width>369</width>
                        <height>198</height>
                       </rect>
                      </property>
@@ -1258,7 +1272,7 @@
                  </layout>
                 </widget>
                </item>
-               <item row="3" column="0" colspan="2">
+               <item row="4" column="0" colspan="2">
                 <widget class="QWidget" name="widget_14" native="true">
                  <layout class="QHBoxLayout" name="horizontalLayout_12">
                   <item>
@@ -1334,7 +1348,7 @@
                  </layout>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="1" column="0">
                 <widget class="QScrollArea" name="scrollArea_6">
                  <property name="widgetResizable">
                   <bool>true</bool>
@@ -1344,8 +1358,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>784</width>
-                    <height>270</height>
+                    <width>769</width>
+                    <height>253</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_20">
@@ -1377,11 +1391,27 @@
                  </widget>
                 </widget>
                </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>нейро-нечітка мережа</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
              <widget class="QWidget" name="page_9">
               <layout class="QGridLayout" name="gridLayout_21">
-               <item row="6" column="0" alignment="Qt::AlignBottom">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item row="3" column="0" alignment="Qt::AlignBottom">
                 <widget class="QWidget" name="widget_15" native="true">
                  <layout class="QHBoxLayout" name="horizontalLayout_13">
                   <item>
@@ -1454,6 +1484,13 @@
                    </layout>
                   </item>
                  </layout>
+                </widget>
+               </item>
+               <item row="0" column="0" rowspan="2">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string/>
+                 </property>
                 </widget>
                </item>
               </layout>

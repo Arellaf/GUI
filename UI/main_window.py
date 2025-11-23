@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QMainWindow
 from main_UI import Ui_MainWindow
 from UI.model1_page import Model1Page
 from UI.model2_page import Model2Page
+from UI.model3_page import Model3Page
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -40,3 +42,6 @@ class MainWindow(QMainWindow):
 
         # --- Підключення сторінки з моделлю 2 ---
         self.classification_model = Model2Page(self.ui)
+
+        # --- Підключення сторінки з моделлю 3 ---
+        self.regression_model = Model3Page(self.ui)
