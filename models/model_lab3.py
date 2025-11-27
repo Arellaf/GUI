@@ -1,4 +1,3 @@
-# File: models/model_lab3.py
 from tensorflow import keras
 import tensorflow as tf
 import pandas as pd
@@ -19,8 +18,10 @@ def neurofuzzy_model(filepath, target_column,
                      normalize_target_scale=100.0,
                      plot_path=None):
 
-    if filepath.endswith((".xlsx", ".xls")):
+    if filepath.endswith(".xlsx"):
         data = pd.read_excel(filepath, engine="openpyxl")
+    elif filepath.endswith(".xls"):
+        data = pd.read_excel(filepath, engine="xlrd")
     else:
         data = pd.read_csv(filepath)
 

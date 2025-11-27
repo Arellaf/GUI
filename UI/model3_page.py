@@ -1,4 +1,3 @@
-# File: UI/model3_page.py (updated show_result to set pixmap on label_7)
 import os
 import pandas as pd
 import numpy as np
@@ -69,7 +68,7 @@ class Model3Page(QWidget):
         QMessageBox.information(self, "Файл вибраний", f"Використовується файл:\n{file_path}")
         try:
             if file_path.endswith((".xlsx", ".xls")):
-                df = pd.read_excel(file_path, nrows=0, engine="openpyxl")
+                df = pd.read_excel(file_path, nrows=0)
             else:
                 df = pd.read_csv(file_path, nrows=0)
             columns = df.columns.tolist()
