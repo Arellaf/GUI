@@ -35,7 +35,6 @@ class MainWindow(QMainWindow):
             self.ui.lab2_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(1))
             self.ui.lab3_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(2))
             self.ui.lab3_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(2))
-
             self.ui.lab4_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(3))
             self.ui.lab4_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(3))
             self.ui.lab5_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(4))

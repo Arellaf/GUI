@@ -3,25 +3,47 @@ import numpy as np
 import pandas as pd
 from PyQt5.QtWidgets import (
     QWidget, QFileDialog, QVBoxLayout, QPushButton,
-    QMessageBox
+    QMessageBox, QDialog, QVBoxLayout as QVLayout, QLabel
 )
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, Qt
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import r2_score
 import h5py
 import tensorflow as tf
+import matplotlib
+matplotlib.use("Qt5Agg")
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 from workers.GeneticTrainWorker import GeneticTrainWorker
 from UI.layer_widget import LayerWidget
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-import io
-from PyQt5.QtGui import QPixmap
+
+class PlotDialog(QDialog):
+    def __init__(self, history, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Найкраще MSE для кожного покоління")
+        self.setMinimumSize(640, 420)
+        layout = QVLayout()
+        self.setLayout(layout)
+
+        if history is None or len(history) == 0:
+            layout.addWidget(QLabel("Немає даних для побудови графіка."))
+            return
+
+        fig = Figure(figsize=(6, 4))
+        self.canvas = FigureCanvas(fig)
+        ax = fig.add_subplot(111)
+        gens = list(range(len(history)))
+        ax.plot(gens, history, marker='o', linewidth=1)
+        ax.set_xlabel("Покоління")
+        ax.set_ylabel("Найкращий MSE")
+        ax.set_title("Навчання GA: найкраща MSE за покоління")
+        ax.grid(True)
+
+        layout.addWidget(self.canvas)
 
 
 class Model5Page(QWidget):
-
     compute_predictions_signal = pyqtSignal(object, float, object, object, object, object)
 
     def __init__(self, ui):
@@ -64,7 +86,6 @@ class Model5Page(QWidget):
         self.add_layer()
         self.add_layer()
 
-        # Підключення сигналу (безпечне використання TF в головному потоці)
         self.compute_predictions_signal.connect(self.compute_predictions)
 
         print("[INFO] Model5Page initialized")
@@ -119,9 +140,9 @@ class Model5Page(QWidget):
             return
 
         try:
-            population_size = int(self.ui.model_5_population_input.text() or "100")
-            generations = int(self.ui.model_5_generations_input.text() or "50")
-            mutation_percent = float(self.ui.model_5_mutation_input.text() or "2")
+            population_size = int(self.ui.model_5_population_input.text() or "30")
+            generations = int(self.ui.model_5_generations_input.text() or "100")
+            mutation_percent = float(self.ui.model_5_mutation_input.text() or "2.0")
             adam_epochs = int(self.ui.model_5_epochs_input.text() or "30")
         except ValueError as e:
             self.show_error("Невірні параметри: перевірте числа.")
@@ -190,8 +211,15 @@ class Model5Page(QWidget):
         y_pred_scaled = model.predict(X_scaled, verbose=0)
         y_pred = scaler_y.inverse_transform(y_pred_scaled).flatten()
 
-        # Передаємо реальні значення
         self.show_predictions(y_test=y_real, y_pred=y_pred)
+
+        try:
+            history = ga
+            if history is not None:
+                dlg = PlotDialog(history, parent=self)
+                dlg.exec_()
+        except Exception as e:
+            print(f"[WARN] Не вдалося побудувати графік: {e}")
 
     def show_predictions(self, y_test=None, y_pred=None):
         if self.trained_model is None or y_pred is None:
@@ -201,12 +229,11 @@ class Model5Page(QWidget):
         n = min(self.ui.model_5_prediction_count.value(), len(y_pred))
         sample = "\n".join([f"{i + 1}: Real = {y_test[i]:.4f}, Predicted = {y_pred[i]:.4f}" for i in range(n)])
 
-        info = f"Target column: {self.target_column_name}\n"
-        info += f"Model trained successfully!\nMSE ≈ {getattr(self.training_thread, 'last_mse', '?.??????')}\n\n"
-        info += f"Predictions (first {n} rows with real values):\n{sample}"
+        info = f"Цільова колонка: {self.target_column_name}\n"
+        info += f"Модель навчена успішно!\nMSE ≈ {getattr(self.training_thread, 'last_mse', '?.??????')}\n\n"
+        info += f"Передбачення (перші {n} рядків з реальними значеннями):\n{sample}"
 
         self.ui.model_5_result.setText(info)
-        self.draw_timeline_plot(y_test, y_pred)
 
     def save_model(self):
         if not self.trained_model:
@@ -247,7 +274,7 @@ class Model5Page(QWidget):
             self.show_error("Модель ще не завантажена.")
             return
 
-        if not hasattr(self.training_thread, "scaler_X"):
+        if not hasattr(self.training_thread, "scaler_X") or not hasattr(self.training_thread, "scaler_y"):
             self.show_error("Скалери не завантажені. Файл моделі пошкоджений.")
             return
 
@@ -260,17 +287,18 @@ class Model5Page(QWidget):
                 self.show_error(f"У файлі немає цільової колонки '{self.target_column_name}'.")
                 return
 
-            # Готуємо X
+            # Готуємо X і y
             X = df.drop(columns=[self.target_column_name])
+            y_real = df[self.target_column_name].values
             X_numeric = X.select_dtypes(include=[np.number])
 
             if X_numeric.empty:
                 self.show_error("У файлі немає числових даних для передбачення.")
                 return
 
-            # Беремо кількість рядків з інпута
             count = self.ui.model_5_prediction_count.value()
             X_numeric = X_numeric.head(count)
+            y_real = y_real[:count]
 
             # Масштабування
             X_scaled = self.training_thread.scaler_X.transform(X_numeric)
@@ -279,12 +307,10 @@ class Model5Page(QWidget):
             y_pred_scaled = self.trained_model.predict(X_scaled, verbose=0)
             y_pred = self.training_thread.scaler_y.inverse_transform(y_pred_scaled).flatten()
 
-            # Готуємо текст
             text = f"Модель завантажена\nЦіль: {self.target_column_name}\n\n"
             text += f"Перші {len(y_pred)} передбачень:\n\n"
-
-            for i, val in enumerate(y_pred, start=1):
-                text += f"{i}: {val:.4f}\n"
+            for i, (real, pred) in enumerate(zip(y_real, y_pred), start=1):
+                text += f"{i}: Real = {real:.4f}, Predicted = {pred:.4f}\n"
 
             self.ui.model_5_result.setText(text)
 
@@ -326,42 +352,13 @@ class Model5Page(QWidget):
 
             self.ui.model_5_save.setEnabled(True)
             self.ui.model_5_container.setCurrentIndex(1)
-            self.ui.model_5_result.setText(f"Модель завантажена:\n{os.path.basename(file_path)}\nЦіль: {self.target_column_name}\nГотова до прогнозів!")
+            self.ui.model_5_result.setText(
+                f"Модель завантажена:\n{os.path.basename(file_path)}\nЦіль: {self.target_column_name}\nГотова до прогнозів!"
+            )
             self.predict_after_load()
 
         except Exception as e:
             QMessageBox.critical(self, "Помилка", f"Не вдалося прочитати скалери:\n{e}")
-
-    def draw_timeline_plot(self, y_real, y_pred):
-
-        if not hasattr(self.training_thread, "mse_history") or not self.training_thread.mse_history:
-            self.show_error("Історія MSE відсутня. Не можу побудувати графік точності.")
-            return
-
-        mse_history = self.training_thread.mse_history
-
-        # Створюємо фігуру
-        fig = Figure(figsize=(6, 3))
-        ax = fig.add_subplot(111)
-
-        ax.plot(mse_history, linewidth=2)
-        ax.set_title("Model Accuracy during Training")
-        ax.set_xlabel("Generation")
-        ax.set_ylabel("MSE")
-        ax.grid(True)
-
-        # Рендер
-        buf = io.BytesIO()
-        fig.tight_layout()
-        fig.savefig(buf, format="png", dpi=120)
-        buf.seek(0)
-
-        pixmap = QPixmap()
-        pixmap.loadFromData(buf.getvalue())
-
-        self.ui.timeline.setPixmap(pixmap)
-        self.ui.timeline.setScaledContents(True)
-        self.ui.timeline.setFixedSize(500, 350)
 
     def reset_model(self):
         print("[INFO] Resetting model and UI")

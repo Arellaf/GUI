@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1074</width>
+    <width>1067</width>
     <height>725</height>
    </rect>
   </property>
@@ -124,6 +124,12 @@
             <iconset resource="icons/resources.qrc">
              <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
            </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -134,6 +140,12 @@
            <property name="icon">
             <iconset resource="icons/resources.qrc">
              <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -280,12 +292,24 @@
            <property name="text">
             <string>генетичний алгоритм</string>
            </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="lab5_btn_2">
            <property name="text">
             <string>PushButton</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -1160,7 +1184,7 @@
            <item row="0" column="0">
             <widget class="QStackedWidget" name="stackedWidget_3">
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_8">
               <layout class="QGridLayout" name="gridLayout_15">
@@ -1710,45 +1734,6 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="0">
-                   <widget class="QLineEdit" name="model_5_dropout_input">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>35</height>
-                     </size>
-                    </property>
-                    <property name="placeholderText">
-                     <string>Dropout</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="2">
-                   <widget class="QLineEdit" name="model_5_population_input">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>35</height>
-                     </size>
-                    </property>
-                    <property name="placeholderText">
-                     <string>population_input (default 30) </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="0">
-                   <widget class="QLineEdit" name="model_5_epochs_input">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>35</height>
-                     </size>
-                    </property>
-                    <property name="placeholderText">
-                     <string>number of epochs  (default 30) </string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="4" column="2">
                    <widget class="QLineEdit" name="model_5_mutation_input">
                     <property name="minimumSize">
@@ -1784,7 +1769,7 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>383</width>
+                       <width>380</width>
                        <height>297</height>
                       </rect>
                      </property>
@@ -1801,6 +1786,19 @@
                       </item>
                      </layout>
                     </widget>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" colspan="3">
+                   <widget class="QPushButton" name="model_5_reset">
+                    <property name="minimumSize">
+                     <size>
+                      <width>740</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Cкинути</string>
+                    </property>
                    </widget>
                   </item>
                   <item row="5" column="1" colspan="2">
@@ -1898,16 +1896,29 @@
                     </item>
                    </layout>
                   </item>
-                  <item row="1" column="0" colspan="3">
-                   <widget class="QPushButton" name="model_5_reset">
+                  <item row="4" column="0">
+                   <widget class="QLineEdit" name="model_5_epochs_input">
                     <property name="minimumSize">
                      <size>
-                      <width>740</width>
-                      <height>0</height>
+                      <width>0</width>
+                      <height>35</height>
                      </size>
                     </property>
-                    <property name="text">
-                     <string>Cкинути</string>
+                    <property name="placeholderText">
+                     <string>number of epochs  (default 30) </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0" colspan="3">
+                   <widget class="QLineEdit" name="model_5_population_input">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>35</height>
+                     </size>
+                    </property>
+                    <property name="placeholderText">
+                     <string>population_input (default 30) </string>
                     </property>
                    </widget>
                   </item>
@@ -1918,7 +1929,7 @@
              </widget>
              <widget class="QWidget" name="model_5_using">
               <layout class="QGridLayout" name="gridLayout_10">
-               <item row="2" column="0" colspan="2">
+               <item row="1" column="0" colspan="2">
                 <widget class="QWidget" name="widget_19" native="true">
                  <layout class="QHBoxLayout" name="horizontalLayout_16">
                   <item>
@@ -2004,7 +2015,7 @@
                     <x>0</x>
                     <y>0</y>
                     <width>789</width>
-                    <height>204</height>
+                    <height>561</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_28">
@@ -2036,19 +2047,6 @@
                  </widget>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLabel" name="timeline">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>350</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
             </widget>
@@ -2075,8 +2073,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>210</x>
-     <y>18</y>
+     <x>282</x>
+     <y>34</y>
     </hint>
     <hint type="destinationlabel">
      <x>44</x>
@@ -2091,8 +2089,8 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>224</x>
-     <y>25</y>
+     <x>282</x>
+     <y>41</y>
     </hint>
     <hint type="destinationlabel">
      <x>160</x>
@@ -2123,8 +2121,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>19</x>
-     <y>113</y>
+     <x>41</x>
+     <y>135</y>
     </hint>
     <hint type="destinationlabel">
      <x>102</x>
@@ -2143,8 +2141,8 @@
      <y>155</y>
     </hint>
     <hint type="destinationlabel">
-     <x>78</x>
-     <y>154</y>
+     <x>174</x>
+     <y>172</y>
     </hint>
    </hints>
   </connection>
@@ -2171,8 +2169,8 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>175</x>
-     <y>101</y>
+     <x>236</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>48</x>
@@ -2203,8 +2201,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>39</x>
-     <y>589</y>
+     <x>60</x>
+     <y>693</y>
     </hint>
     <hint type="destinationlabel">
      <x>82</x>
@@ -2219,12 +2217,76 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>587</y>
+     <x>237</x>
+     <y>693</y>
     </hint>
     <hint type="destinationlabel">
      <x>178</x>
      <y>647</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lab4_btn_1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lab4_btn_2</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>136</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lab4_btn_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lab4_btn_1</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lab5_btn_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lab5_btn_1</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>48</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lab5_btn_1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lab5_btn_2</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>248</y>
     </hint>
    </hints>
   </connection>

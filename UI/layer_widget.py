@@ -8,19 +8,19 @@ class LayerWidget(QWidget):
 
         layout = QHBoxLayout()
 
-        self.label = QLabel(f"Layer {layer_index + 1}:")
+        self.label = QLabel(f"Шар {layer_index + 1}:")
         layout.addWidget(self.label)
 
         self.neurons = QSpinBox()
         self.neurons.setRange(1, 2048)
-        self.neurons.setValue(64)
+        self.neurons.setValue(128)
         layout.addWidget(self.neurons)
 
         self.activation = QComboBox()
         self.activation.addItems(["relu", "sigmoid", "tanh", "softmax", "linear"])
         layout.addWidget(self.activation)
 
-        self.remove_btn = QPushButton("remove")
+        self.remove_btn = QPushButton("Видалити")
         self.remove_btn.clicked.connect(self.remove_self)
         layout.addWidget(self.remove_btn)
 

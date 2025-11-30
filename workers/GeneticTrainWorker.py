@@ -11,8 +11,8 @@ class GeneticTrainWorker(BaseTrainWorker):
         self,
         file_path,
         target_column,
-        population_size=100,
-        generations=50,
+        population_size=30,
+        generations=100,
         mutation_percent=2.0,
         layers=None,
         adam_epochs=30,
@@ -112,7 +112,10 @@ class GeneticTrainWorker(BaseTrainWorker):
             print(f"[INFO] Запуск швидкого ГА: {self.generations} поколінь, популяція = {self.population_size}")
 
             for gen in range(1, self.generations + 1):
-                # Батч-предикт для всієї популяції
+                if self.isInterruptionRequested():
+                    print("[INFO] Training interrupted by request.")
+                    return
+
                 all_preds = np.zeros((self.population_size, len(self.X_train)), dtype=np.float32)
 
                 for i, weights_vec in enumerate(population):
@@ -199,7 +202,7 @@ class GeneticTrainWorker(BaseTrainWorker):
             self.finished.emit(
                 weights_list,
                 self.last_mse,
-                None,
+                self.best_history,
                 self.scaler_X,
                 self.scaler_y,
                 self.X_train
