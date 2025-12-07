@@ -43,7 +43,6 @@ def classification_model(filepath, target_column, epochs=50, test_size=0.2, laye
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    # === Поділ на train/test ===
     x_train, x_test, y_train, y_test = train_test_split(X_scaled, y_encoded, test_size=test_size, random_state=42)
 
     # === Побудова моделі ===

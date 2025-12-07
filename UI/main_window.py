@@ -5,6 +5,9 @@ from UI.model1_page import Model1Page
 from UI.model2_page import Model2Page
 from UI.model3_page import Model3Page
 from UI.model5_page import Model5Page
+from UI.model6_page import Model6Page
+from UI.model7_page import Model7Page
+from UI.model9_page import Model9Page
 
 
 class MainWindow(QMainWindow):
@@ -39,6 +42,14 @@ class MainWindow(QMainWindow):
             self.ui.lab4_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(3))
             self.ui.lab5_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(4))
             self.ui.lab5_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(4))
+
+            self.ui.lab6_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(5))
+            self.ui.lab6_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(5))
+            self.ui.lab7_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(6))
+            self.ui.lab7_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(6))
+            self.ui.lab8_btn_1.clicked.connect(lambda: self.ui.content.setCurrentIndex(7))
+            self.ui.lab8_btn_2.clicked.connect(lambda: self.ui.content.setCurrentIndex(7))
+
         except Exception:
             pass
 
@@ -51,4 +62,14 @@ class MainWindow(QMainWindow):
         # --- Підключення сторінки з моделлю 3 ---
         self.regression_model = Model3Page(self.ui)
 
+        # --- Підключення сторінки з моделлю 5 ---
         self.genetic_regression_model = Model5Page(self.ui)
+
+        # --- Підключення сторінки з моделлю 6 ---
+        self.model6_tab = Model6Page(self.ui)
+
+        # --- Підключення сторінки з моделлю 6 ---
+        self.model7_tab = Model7Page(self.ui)
+
+        # --- Підключення сторінки з моделлю 9 ---
+        self.ImageNet_CNN = Model9Page(self.ui)

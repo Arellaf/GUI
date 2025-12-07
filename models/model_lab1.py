@@ -23,7 +23,6 @@ def regression_model(filepath, target_column, epochs=50, test_size=0.2, layers=N
     X = X / X.max(axis=0)
     y = y / 100.0
 
-    # Поділ на train/test
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
     # Побудова моделі

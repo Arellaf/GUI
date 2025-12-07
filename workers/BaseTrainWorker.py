@@ -1,6 +1,5 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 
-
 class BaseTrainWorker(QThread):
     """Abstract base class for training workers."""
 
@@ -19,9 +18,7 @@ class BaseTrainWorker(QThread):
         self.rules = rules
 
     def stop_requested(self):
-        """Check if training should stop."""
         return self.isInterruptionRequested()
 
     def run(self):
-        """Template method — to be overridden in subclasses."""
         raise NotImplementedError("Subclasses must implement this method.")
